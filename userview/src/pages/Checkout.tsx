@@ -251,10 +251,10 @@ export default function Checkout() {
                       {((item as any).image || (item as any).imageUrl) ? (
                         <img 
   src={
-    ((item as any).image || (item as any).imageUrl)?.startsWith("http") 
-      ? ((item as any).image || (item as any).imageUrl) 
-      : `http://localhost:5000${((item as any).image || (item as any).imageUrl)}`
-  } 
+  ((item as any).image || (item as any).imageUrl)?.startsWith("http") 
+    ? ((item as any).image || (item as any).imageUrl) 
+    : `https://devatesting.rakvihorganic.com${((item as any).image || (item as any).imageUrl)}`
+}
   alt={item.name} 
   className="w-full h-full object-cover" 
 />

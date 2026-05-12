@@ -32,7 +32,7 @@ const getImageUrl = (images: any) => {
     ? cleanPath 
     : `uploads/${cleanPath}`;
 
-  return `http://localhost:5000/${finalPath}`;
+  return `https://devatesting.rakvihorganic.com/${finalPath}`;
 }
 
 export default function Cart() {

@@ -40,8 +40,7 @@ const getImageUrl = (images: any) => {
     ? cleanPath 
     : `uploads/${cleanPath}`;
 
-  // 6. Return final Render URL
-  return `http://localhost:5000/${finalPath}`;
+  return `https://devatesting.rakvihorganic.com/${finalPath}`;
 }
 
 export default function Shop() {

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Assuming your Node.js server runs on port 5000
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://devatesting.rakvihorganic.com/api',
 });
 
 // Add a request interceptor to include the JWT token

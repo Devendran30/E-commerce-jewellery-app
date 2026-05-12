@@ -24,7 +24,7 @@ const getImageUrl = (images: any) => {
   if (cleanUrl.startsWith("http")) return cleanUrl; 
 
   const filename = cleanUrl.split(/[/\\]/).pop(); 
-  return `http://127.0.0.1:5000/uploads/${filename}`;
+  return `https://devatesting.rakvihorganic.com/uploads/${filename}`;
 };
 
 export default function HomeManager() {

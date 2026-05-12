@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Instagram, Truck, Wallet, ShieldCheck, Headphones } from "lucide-react"; 
 import api from "../api/axios"; 
 
-// --- UPDATED BULLETPROOF IMAGE HELPER ---
+// --- UPDATED BULLETPROOF IMAGE HELPER (Hostinger Ready) ---
 const getImageUrl = (images: any) => {
   if (!images) return "";
   
@@ -19,14 +19,14 @@ const getImageUrl = (images: any) => {
   if (!path) return "";
   const cleanUrl = path.trim();
 
-  // Return Unsplash links immediately
+  // Return Unsplash/external links immediately
   if (cleanUrl.startsWith("http")) return cleanUrl; 
 
   // Strip away "backend/uploads" or "uploads/" and just get the file name
-  const filename = cleanUrl.split(/[/\\]/).pop(); 
+  const finalPath = cleanUrl.split(/[/\\]/).pop(); 
   
-  // Use 127.0.0.1 for better Mac compatibility
-  return `http://127.0.0.1:5000/uploads/${filename}`;
+  // Directly targets your Hostinger uploads folder!
+  return `https://devatesting.rakvihorganic.com/uploads/${finalPath}`;
 };
 
 export default function Home() { 

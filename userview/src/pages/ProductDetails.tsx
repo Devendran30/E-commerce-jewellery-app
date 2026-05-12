@@ -5,7 +5,7 @@ import type { Product } from "../types";
 import { useCart } from "../context/CartContext";
 
 // The full URL to your Render backend uploads folder
-const IMAGE_BASE_URL = "http://localhost:5000/uploads/";
+const IMAGE_BASE_URL = "https://devatesting.rakvihorganic.com/uploads/";
 
 export default function ProductDetails() {
   const { id } = useParams();
