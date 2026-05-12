@@ -1,0 +1,22 @@
+const mysql = require('mysql2');
+require('dotenv').config(); 
+
+const db = mysql.createPool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error("Error connecting to the local database: ", err);
+    } else {
+        console.log("Successfully connected to the Local MacBook Database!");
+        connection.release();
+    }
+});
+
+module.exports = db;
