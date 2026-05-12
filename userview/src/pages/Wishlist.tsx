@@ -20,24 +20,27 @@ const getImageUrl = (images: any) => {
     path = images;
   }
 
+  // Fallback to Unsplash if no image exists
   if (!path) return "https://images.unsplash.com/photo-1599643478514-4a820c559dbf?w=800";
+  
+  // If it's already a full URL, return it immediately
   if (path.startsWith("http")) return path;
 
+  // Clean the path of backslashes and leading slashes
   let cleanPath = path.replace(/\\/g, '/');
   if (cleanPath.startsWith('/')) {
     cleanPath = cleanPath.substring(1);
   }
 
-  const finalPath = cleanPath.startsWith('uploads/') 
-    ? cleanPath 
-    : `uploads/${cleanPath}`;
-
+  // Extract just the filename to avoid double "uploads/uploads" issues
+  const fileName = cleanPath.split('/').pop();
   
+  // Return the live Hostinger URL
+  return `https://devatesting.rakvihorganic.com/uploads/${fileName}`;
 };
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<any[]>([]);
-  // NEW: State to track which item shows the login prompt
   const [authPrompt, setAuthPrompt] = useState<{ id: string | number, message: string } | null>(null);
   
   const { addToCart } = useCart();
@@ -56,17 +59,14 @@ export default function Wishlist() {
   };
 
   const moveToCart = (item: any) => {
-    // SECURITY CHECK: Is user logged in?
     const isCustomerLoggedIn = localStorage.getItem("token");
 
     if (!isCustomerLoggedIn) {
-      // Show message for this specific item
       setAuthPrompt({ id: item.id, message: "Please log in to move to bag" });
       setTimeout(() => setAuthPrompt(null), 4000); 
       return; 
     }
 
-    // Proceed if logged in
     addToCart(item, 1);
     removeItem(item.id); 
     setAuthPrompt(null);
@@ -75,7 +75,6 @@ export default function Wishlist() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-16 min-h-[70vh]">
       
-      {/* Header Section */}
       <header className="text-center mb-16 border-b pb-10" style={{ borderColor: '#f3ece1' }}>
         <h1 className="text-4xl font-serif italic mb-3" style={{ color: '#c2a67a' }}>
           Your Private Collection
@@ -85,7 +84,6 @@ export default function Wishlist() {
         </p>
       </header>
 
-      {/* Empty State */}
       {wishlistItems.length === 0 ? (
         <div className="text-center py-20 flex flex-col items-center">
           <Heart size={48} strokeWidth={1} className="mb-6 opacity-30" style={{ color: '#c2a67a' }} />
@@ -104,12 +102,10 @@ export default function Wishlist() {
           </Link>
         </div>
       ) : (
-        /* Wishlist Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {wishlistItems.map((item) => (
             <div key={item.id} className="group flex flex-col">
               
-              {/* Image Container */}
               <div className="aspect-[4/5] w-full bg-[#fdfbf7] relative overflow-hidden mb-6 flex items-center justify-center border" style={{ borderColor: '#f3ece1' }}>
                 <Link to={`/product/${item.id}`} className="w-full h-full block">
                   <img 
@@ -130,7 +126,6 @@ export default function Wishlist() {
                 </button>
               </div>
 
-              {/* Product Details */}
               <div className="text-center flex-1 flex flex-col">
                 <h3 className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#1a1a1a' }}>
                   {item.name}
@@ -139,46 +134,42 @@ export default function Wishlist() {
                   ₹ {item.price ? Number(item.price).toLocaleString('en-IN') : "0"}
                 </p>
                 
-                {/* Move to Bag Button Area */}
-                {/* Move to Bag Button Area */}
-<div className="mt-auto">
-  <button 
-    onClick={() => moveToCart(item)}
-    className="w-full py-4 border text-[10px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-3 transition-all cursor-pointer"
-    style={{ 
-      borderColor: '#c2a67a', 
-      color: '#c2a67a',
-      backgroundColor: 'transparent'
-    }}
-    onMouseEnter={(e) => {
-      e.currentTarget.style.backgroundColor = '#c2a67a';
-      e.currentTarget.style.color = '#ffffff';
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = 'transparent';
-      e.currentTarget.style.color = '#c2a67a';
-    }}
-  >
-    <ShoppingBag size={14} />
-    Move to Bag
-  </button>
+                <div className="mt-auto">
+                  <button 
+                    onClick={() => moveToCart(item)}
+                    className="w-full py-4 border text-[10px] font-black tracking-[0.2em] uppercase flex items-center justify-center gap-3 transition-all cursor-pointer"
+                    style={{ 
+                      borderColor: '#c2a67a', 
+                      color: '#c2a67a',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#c2a67a';
+                      e.currentTarget.style.color = '#ffffff';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#c2a67a';
+                    }}
+                  >
+                    <ShoppingBag size={14} />
+                    Move to Bag
+                  </button>
 
-  {/* FIXED LOGIC FOR LINE 168 */}
-  {authPrompt && authPrompt.id === item.id && (
-    <div className="mt-3 flex flex-col items-center gap-1 text-[9px] font-bold tracking-widest uppercase text-red-500">
-      <span>{authPrompt.message}</span>
-      <button 
-        type="button"
-        onClick={() => navigate("/login")}
-        className="underline text-[#1a2238] border-none bg-transparent cursor-pointer p-0 font-bold"
-      >
-        Sign In
-      </button>
-    </div>
-  )}
+                  {authPrompt && authPrompt.id === item.id && (
+                    <div className="mt-3 flex flex-col items-center gap-1 text-[9px] font-bold tracking-widest uppercase text-red-500">
+                      <span>{authPrompt.message}</span>
+                      <button 
+                        type="button"
+                        onClick={() => navigate("/login")}
+                        className="underline text-[#1a2238] border-none bg-transparent cursor-pointer p-0 font-bold"
+                      >
+                        Sign In
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-
             </div>
           ))}
         </div>
