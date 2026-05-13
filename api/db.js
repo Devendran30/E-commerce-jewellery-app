@@ -1,8 +1,7 @@
 const mysql = require('mysql2');
-require('dotenv').config(); 
 
-const db = mysql.createPool({
-  host: process.env.DB_HOST,  
+const connection = mysql.createPool({
+  host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -11,13 +10,14 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-db.getConnection((err, connection) => {
-    if (err) {
-        console.error("Error connecting to the local database: ", err);
-    } else {
-        console.log("Successfully connected to the Local MacBook Database!");
-        connection.release();
-    }
+// This helps catch the error instead of crashing the whole server
+connection.getConnection((err, conn) => {
+  if (err) {
+    console.error("DATABASE CONNECTION FAILED:", err.message);
+  } else {
+    console.log("Connected to Hostinger Database!");
+    conn.release();
+  }
 });
 
-module.exports = db;
+module.exports = connection.promise();
