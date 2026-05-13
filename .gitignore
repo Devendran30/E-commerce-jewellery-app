@@ -1,2 +1,21 @@
-node_modules
+# Dependency directories
+node_modules/
+api/node_modules/
+userview/node_modules/
+adminpanel/node_modules/
+
+# Environment variables (CRITICAL FOR SECURITY)
 .env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build folders (Vercel builds these automatically, no need to upload)
+dist/
+build/
+userview/dist/
+adminpanel/dist/
+
+# OS generated files
+.DS_Store
