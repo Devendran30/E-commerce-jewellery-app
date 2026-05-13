@@ -5,8 +5,8 @@ const path = require("path");
 
 // --- Import Configs (Assumes you moved them into /api) ---
 // If you don't move them, change these to "../db" and "../razorpayConfig"
-const db = require("./db"); 
-const razorpay = require("./razorpayConfig");
+const db = require("../db"); 
+const razorpay = require("../razorpayConfig");
 
 // --- Import Routes (Matches /api/routes in image_56f13b.jpg) ---
 const userRoutes = require("./routes/users");
